@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 20px;
+        }
+        
+        body.dark-mode {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            padding: 10px;
+            background: #eee;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        
+        body.dark-mode .theme-toggle {
+            background: #334155;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dark Mode Toggle Test</h1>
+    <p>Click the button below to toggle dark mode</p>
+    
+    <div id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <script>
+        // Theme Toggle - Direct Implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // Function to update the UI based on current mode
+            function updateTheme() {
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    console.log('Dark mode is ON');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    console.log('Dark mode is OFF');
+                }
+            }
+            
+            // Initial theme setup
+            updateTheme();
+            
+            // Toggle theme on click
+            themeToggle.addEventListener('click', function() {
+                isDarkMode = !isDarkMode;
+                localStorage.setItem('darkMode', isDarkMode);
+                updateTheme();
+                console.log('Dark mode toggled to:', isDarkMode);
+            });
+        });
+    </script>
+</body>
+</html> 

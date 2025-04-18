@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dark Mode</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            background: white;
+            color: black;
+            transition: all 0.3s ease;
+        }
+        body.dark-mode {
+            background: #0f172a;
+            color: white;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+            min-height: 200px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dark Mode Debugger</h1>
+    
+    <button id="toggle1">Toggle Dark Mode (classList)</button>
+    <button id="toggle2">Toggle Dark Mode (setAttribute)</button>
+    <button id="check">Check Current State</button>
+    <button id="clear">Clear Log</button>
+    
+    <div id="state"></div>
+    <div class="output" id="output"></div>
+    
+    <script>
+        // Log function that shows output on the page
+        function log(message) {
+            const output = document.getElementById('output');
+            output.innerHTML += message + '<br>';
+            console.log(message);
+        }
+        
+        // Show current state
+        function showState() {
+            const state = document.getElementById('state');
+            const hasDarkMode = document.body.classList.contains('dark-mode');
+            const dataTheme = document.documentElement.getAttribute('data-theme');
+            const localStorageValue = localStorage.getItem('darkMode');
+            
+            state.innerHTML = `
+                <h3>Current State:</h3>
+                <ul>
+                    <li>body.classList.contains('dark-mode'): ${hasDarkMode}</li>
+                    <li>documentElement.dataset.theme: ${dataTheme || 'not set'}</li>
+                    <li>localStorage 'darkMode': ${localStorageValue || 'not set'}</li>
+                </ul>
+            `;
+        }
+        
+        // Toggle using classList
+        document.getElementById('toggle1').addEventListener('click', function() {
+            try {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+                log(`Toggled dark mode using classList. Now: ${isDark ? 'dark' : 'light'}`);
+                showState();
+            } catch(e) {
+                log(`Error toggling dark mode: ${e.message}`);
+            }
+        });
+        
+        // Toggle using setAttribute
+        document.getElementById('toggle2').addEventListener('click', function() {
+            try {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                log(`Toggled dark mode using setAttribute. Now: ${newTheme}`);
+                showState();
+            } catch(e) {
+                log(`Error toggling data-theme: ${e.message}`);
+            }
+        });
+        
+        // Check current state
+        document.getElementById('check').addEventListener('click', function() {
+            showState();
+            log('Checked current state');
+        });
+        
+        // Clear log
+        document.getElementById('clear').addEventListener('click', function() {
+            document.getElementById('output').innerHTML = '';
+        });
+        
+        // Initial check
+        window.onload = function() {
+            showState();
+            log('Page loaded. Checking initial state.');
+        };
+    </script>
+</body>
+</html> 

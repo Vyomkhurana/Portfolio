@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio with Working Dark Mode</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base styles */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1e293b;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        /* Dark mode variables */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --header-bg: rgba(15, 23, 42, 0.9);
+            --card-bg: #1e293b;
+            --border-color: #334155;
+        }
+        
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
+        header {
+            background-color: var(--header-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        
+        .navbar {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .dark-mode-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: var(--card-bg);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+        
+        section {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        h1, h2, h3 {
+            color: var(--text-color);
+        }
+        
+        /* Fixed toggle button */
+        .fixed-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #2563eb;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>VK</h1>
+        </div>
+        <nav class="navbar">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+            <div class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>This is a test page to verify that dark mode works correctly.</p>
+        </section>
+        
+        <section id="projects">
+            <h2>Projects</h2>
+            <p>Dark mode should toggle correctly when clicking the icon in the header or the fixed button.</p>
+        </section>
+        
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Test content to verify styling in dark mode.</p>
+        </section>
+    </main>
+    
+    <!-- Fixed toggle button -->
+    <div class="fixed-toggle" id="fixed-toggle">
+        <i class="fas fa-adjust"></i>
+    </div>
+    
+    <script>
+        // Simple function to toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            
+            // Update moon/sun icon
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
+        
+        // Add click listeners to both toggle buttons
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('fixed-toggle').addEventListener('click', toggleDarkMode);
+        
+        // Check for dark mode preference in localStorage
+        if (localStorage.getItem('darkMode') === 'true') {
+            toggleDarkMode();
+        }
+        
+        // Add keyboard shortcut (Shift+D)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'D' && e.shiftKey) {
+                toggleDarkMode();
+            }
+        });
+    </script>
+</body>
+</html> 
